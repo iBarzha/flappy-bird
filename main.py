@@ -2,10 +2,10 @@ import pygame
 import random
 import sys
 
-# Ініціалізація Pygame
+# Pygame initialization
 pygame.init()
 
-# Константи
+# Constants
 WIDTH, HEIGHT = 400, 600
 BACKGROUND_COLOR = (255, 255, 255)
 FPS = 60
@@ -14,16 +14,16 @@ BIRD_JUMP = -4
 PIPE_VELOCITY = -2
 GAP_SIZE = 150
 
-# Створення вікна гри
+# Creating a game window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Flappy Bird")
 
-# Завантаження зображень
+# Uploading images
 bird_img = pygame.image.load("bird.png").convert_alpha()
 pipe_img = pygame.image.load("pipe.png").convert_alpha()
 background_img = pygame.image.load("background.png").convert()
 
-# Клас для птахи
+# A class for bird
 class Bird:
     def __init__(self):
         self.x = 50
@@ -43,7 +43,7 @@ class Bird:
     def draw(self):
         screen.blit(self.image, self.rect)
 
-# Класс для труб
+# Pipe class
 class Pipe:
     def __init__(self, x):
         self.x = x
@@ -67,11 +67,11 @@ class Pipe:
         screen.blit(self.top_pipe, self.top_rect)
         screen.blit(self.bottom_pipe, self.bottom_rect)
 
-# Функція для створення нової труби
+# Function for creating a new pipe
 def create_pipe():
     pipes.append(Pipe(WIDTH + 100))
 
-# Функція для перевірки зіткнень
+# Function for checking collisions
 def check_collision(bird, pipes):
     if bird.rect.top <= 0 or bird.rect.bottom >= HEIGHT:
         return True
@@ -80,13 +80,13 @@ def check_collision(bird, pipes):
             return True
     return False
 
-# Функція для відображення рахунку
+# Function to display the score
 def display_score(score):
     font = pygame.font.Font(None, 36)
     score_text = font.render(f"Score: {score}", True, (0, 0, 0))
     screen.blit(score_text, (10, 10))
 
-# Ініціалізація гри
+#Initializing the game
 bird = Bird()
 pipes = []
 create_pipe()
@@ -94,7 +94,7 @@ clock = pygame.time.Clock()
 score = 0
 game_over = False
 
-# Головний ігровий цикл
+#The main game cycle
 running = True
 while running:
     for event in pygame.event.get():
@@ -112,7 +112,7 @@ while running:
             elif event.key == pygame.K_ESCAPE:
                 running = False
 
-    # Оновлення ігрових об'єктів
+    # Update game objects
     if not game_over:
         bird.update()
         for pipe in pipes:
@@ -126,7 +126,7 @@ while running:
         if check_collision(bird, pipes):
             game_over = True
 
-    # Відображення ігрових об'єктів
+    # Display of game objects
     screen.blit(background_img, (0, 0))
     bird.draw()
     for pipe in pipes:
